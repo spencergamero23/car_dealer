@@ -1,19 +1,31 @@
 {
   "name": "car_dealer",
+  "pnpm": {
+    "onlyBuiltDependencies": ["bcrypt", "pg"]
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "pg": "^8.21.0",
+    "ws": "^8.20.1"
+  },
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --env-file=.env server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.33.2",
-  "dependencies": {
-    "express": "^5.2.1"
-  },
   "devDependencies": {
     "nodemon": "^3.1.14"
   }
