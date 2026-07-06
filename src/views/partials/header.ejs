@@ -5,53 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/main.css">
-    <%- typeof renderStyles !== 'undefined' ? renderStyles() : '' %>
-    <%- typeof renderScripts !== 'undefined' ? renderScripts() : '' %>
-
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <!-- Always visible links -->
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/catalog">Course Catalog</a></li>
-                <li><a href="/faculty">Faculty Directory</a></li>
                 <li><a href="/contact">Contact</a></li>
-                <!-- <li><a href="/demo">Middleware Demo</a></li> -->
-
-                <!-- Only visible when logged in -->
-                <% if (locals.isLoggedIn) { %>
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="/register/list">All Users</a></li>
-                    <li><a href="/contact/responses">Contact Responses</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                <% } %>
-
-                <!-- Only visible when NOT logged in -->
-                <% if (!locals.isLoggedIn) { %>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Register</a></li>
-                <% } %>
             </ul>
         </nav>
     </header>
-    </header>
-
-    <% 
-        const messages = flash();
-        const hasMessages = Object.values(messages).some(arr => arr.length > 0);
-    %>
-
-    <% if (hasMessages) { %>
-        <div class="flash-messages">
-            <% Object.keys(messages).forEach(type => { %>
-                <% messages[type].forEach(message => { %>
-                    <div class="flash <%= type %>">
-                        <%= message %>
-                    </div>
-                <% }); %>
-            <% }); %>
-        </div>
-    <% } %>

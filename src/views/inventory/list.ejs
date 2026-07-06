@@ -1,0 +1,13 @@
+<%- include('../partials/header.ejs') %>
+ <main>
+    <h1>Welcome to Cars Cars and More Cars!</h1>
+
+    <h2>Inventory</h2>
+    <% vehicles.forEach(vehicle => { %>
+      <div class="vehicle-card">
+        <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
+        <p>$<%= vehicle.price.toLocaleString() %></p>
+      </div>
+    <% }) %>
+ </main>
+ <%- include('../partials/footer.ejs') %>
