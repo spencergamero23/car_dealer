@@ -3,6 +3,13 @@
     <h1>Welcome to Cars Cars and More Cars!</h1>
 
     <h2>Inventory</h2>
+    <nav class="category-filter">
+        <a href="/" class="<%= category === 'All' ? 'active' : '' %>">All</a>
+        <a href="/?category=Trucks" class="<%= category === 'Trucks' ? 'active' : '' %>">Trucks</a>
+        <a href="/?category=Vans" class="<%= category === 'Vans' ? 'active' : '' %>">Vans</a>
+        <a href="/?category=Cars" class="<%= category === 'Cars' ? 'active' : '' %>">Cars</a>
+        <a href="/?category=SUVs" class="<%= category === 'SUVs' ? 'active' : '' %>">SUVs</a>
+    </nav>
     <% vehicles.forEach(vehicle => { %>
       <a href="/inventory/<%= vehicle.slug %>">
         <div class="vehicle-card">
