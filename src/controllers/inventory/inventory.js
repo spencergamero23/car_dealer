@@ -1,4 +1,5 @@
 import { getAllVehicles, getVehicleBySlug} from '../../models/inventory/vehicles.js';
+import { getReviewsByVehicleSlug } from '../../models/reviews/reviews.js';
 
 const inventoryListPage = async (req, res) => {
     const category = req.query.category;
@@ -19,9 +20,14 @@ const vehicleDetailPage = async (req,res, next) => {
         err.status = 404;
         return next(err);
     }
+
+    const reviews = await getReviewsByVehicleSlug(vehicle.slug);
+
     res.render('inventory/detail', {
         title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
-        vehicle
+        vehicle,
+        reviews,
+        currentUserId: req.session.user ? req.session.user.id : null
     });
 };
 
