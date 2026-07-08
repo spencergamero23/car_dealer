@@ -1,4 +1,4 @@
-import { createContactSubmission } from "../../models/contact/contact";
+import { createContactSubmission } from "../../models/contact/contact.js";
 
 const contactFormPage = (req, res) => {
     res.render('contact/form', { title: 'Contact Us'});
@@ -9,7 +9,7 @@ const submitContactForm = async (req, res) => {
 
     await createContactSubmission({ name, email, phone, message});
     
-    res,render('contact/form', {
+    res.render('contact/form', {
         title: 'Contact Us',
         success: true
     });

@@ -1,0 +1,17 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Contact Us</h1>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+        <p>Thanks! Your message has been sent.</p>
+    <% } %>
+
+    <form method="POST" action="/contact">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="tel" name="phone" placeholder="Phone">
+        <textarea name="message" placeholder="Message" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+</main>
+<%- include('../partials/footer.ejs') %>
