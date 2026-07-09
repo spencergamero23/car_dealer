@@ -1,0 +1,22 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>My Service Requests</h1>
+
+    <a href="/service-requests/new">New Service Request</a>
+
+    <% if (requests.length === 0) { %>
+        <p>You haven't submitted any service requests yet.</p>
+    <% } %>
+
+    <% requests.forEach(request => { %>
+        <div class="service-request">
+            <p><strong><%= request.vehicle_info %></strong> — <%= request.service_type %></p>
+            <p>Status: <%= request.status %></p>
+            <% if (request.notes) { %>
+                <p><%= request.notes %></p>
+            <% } %>
+            <p><small><%= request.created_at.toLocaleDateString() %></small></p>
+        </div>
+    <% }) %>
+</main>
+<%- include('../partials/footer.ejs') %>

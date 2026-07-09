@@ -23,3 +23,13 @@ CREATE TABLE IF NOT EXISTS reviews (
     comment TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS service_requests (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    vehicle_info VARCHAR(255) NOT NULL,
+    service_type VARCHAR(50) NOT NULL,
+    notes TEXT,
+    status VARCHAR(20) NOT NULL DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT NOW()
+);

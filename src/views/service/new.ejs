@@ -1,0 +1,21 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Request Service</h1>
+
+    <form method="POST" action="/service-requests">
+        <input type="text" name="vehicleInfo" placeholder="Vehicle (e.g. 2015 Honda Civic)" required>
+
+        <select name="serviceType" required>
+            <option value="Oil Change">Oil Change</option>
+            <option value="Inspection">Inspection</option>
+            <option value="Tire Rotation">Tire Rotation</option>
+            <option value="Brake Service">Brake Service</option>
+            <option value="General Repair">General Repair</option>
+        </select>
+
+        <textarea name="notes" placeholder="Additional details (optional)"></textarea>
+
+        <button type="submit">Submit Request</button>
+    </form>
+</main>
+<%- include('../partials/footer.ejs') %>
