@@ -1,0 +1,28 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Add Vehicle</h1>
+
+    <form method="POST" action="/owner/vehicles">
+        <input type="text" name="slug" placeholder="Slug (e.g. toyota-corolla-2024)" required>
+
+        <select name="categoryName" required>
+            <% categories.forEach(category => { %>
+                <option value="<%= category.name %>"><%= category.name %></option>
+            <% }) %>
+        </select>
+
+        <input type="text" name="make" placeholder="Make" required>
+        <input type="text" name="model" placeholder="Model" required>
+        <input type="number" name="year" placeholder="Year" required>
+        <input type="number" name="price" step="0.01" placeholder="Price" required>
+        <input type="number" name="mileage" placeholder="Mileage" required>
+        <input type="text" name="image" placeholder="Image path (e.g. /images/inventory/toyota-corolla-2024.jpg)">
+        <textarea name="description" placeholder="Description"></textarea>
+        <input type="text" name="engine" placeholder="Engine">
+        <input type="text" name="transmission" placeholder="Transmission">
+        <input type="text" name="drivetrain" placeholder="Drivetrain">
+
+        <button type="submit">Add Vehicle</button>
+    </form>
+</main>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,12 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Contact Submissions</h1>
+    <% submissions.forEach(submission => { %>
+        <div class="contact-row">
+            <p><strong><%= submission.name %></strong> — <%= submission.email %><% if (submission.phone) { %> — <%= submission.phone %><% } %></p>
+            <p><%= submission.message %></p>
+            <p><small><%= submission.created_at.toLocaleDateString() %></small></p>
+        </div>
+    <% }) %>
+</main>
+<%- include('../partials/footer.ejs') %>

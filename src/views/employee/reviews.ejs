@@ -1,0 +1,14 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Moderate Reviews</h1>
+    <% reviews.forEach(review => { %>
+        <div class="review-row">
+            <p><strong><%= review.userName %></strong> on <%= review.vehicle_slug %> — <%= review.rating %>/5</p>
+            <p><%= review.comment %></p>
+            <form method="POST" action="/employee/reviews/<%= review.id %>/delete" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    <% }) %>
+</main>
+<%- include('../partials/footer.ejs') %>

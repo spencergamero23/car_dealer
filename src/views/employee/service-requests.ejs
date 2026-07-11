@@ -1,0 +1,21 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Service Requests</h1>
+    <% requests.forEach(request => { %>
+        <div class="service-request-row">
+            <p><strong><%= request.customerName %></strong> — <%= request.vehicle_info %> — <%= request.service_type %></p>
+            <% if (request.notes) { %><p>Customer notes: <%= request.notes %></p><% } %>
+
+            <form method="POST" action="/employee/service-requests/<%= request.id %>">
+                <select name="status">
+                    <option value="Submitted" <%= request.status === 'Submitted' ? 'selected' : '' %>>Submitted</option>
+                    <option value="In Progress" <%= request.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                    <option value="Completed" <%= request.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                </select>
+                <textarea name="employeeNotes" placeholder="Employee notes"><%= request.employee_notes || '' %></textarea>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    <% }) %>
+</main>
+<%- include('../partials/footer.ejs') %>

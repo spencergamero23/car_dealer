@@ -40,5 +40,15 @@ const deleteReview = async (id) => {
     const result = await db.query(`DELETE FROM reviews WHERE id = $1`, [id]);
     return result.rowCount > 0;
 };
+const getAllReviews = async () => {
+    const result = await db.query(
+        `SELECT reviews.id, reviews.rating, reviews.comment, reviews.created_at,
+                reviews.vehicle_slug, users.name AS "userName"
+         FROM reviews
+         JOIN users ON reviews.user_id = users.id
+         ORDER BY reviews.created_at DESC`
+    );
+    return result.rows;
+};
 
-export { createReview, getReviewsByVehicleSlug, getReviewById, updateReview, deleteReview };
+export { createReview, getReviewsByVehicleSlug, getReviewById, getAllReviews, updateReview, deleteReview };

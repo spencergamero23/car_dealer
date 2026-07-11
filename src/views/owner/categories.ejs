@@ -1,0 +1,22 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Manage Categories</h1>
+
+    <form method="POST" action="/owner/categories">
+        <input type="text" name="name" placeholder="New category name" required>
+        <button type="submit">Add Category</button>
+    </form>
+
+    <% categories.forEach(category => { %>
+        <div class="category-row">
+            <form method="POST" action="/owner/categories/<%= category.id %>/edit" style="display:inline;">
+                <input type="text" name="name" value="<%= category.name %>">
+                <button type="submit">Save</button>
+            </form>
+            <form method="POST" action="/owner/categories/<%= category.id %>/delete" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    <% }) %>
+</main>
+<%- include('../partials/footer.ejs') %>

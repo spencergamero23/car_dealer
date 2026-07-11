@@ -11,11 +11,19 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
 
                 <% if (isLoggedIn) {%>
                     <li><a href="/service-requests">Service Requests</a></li>
+
+                    <% if (userRole === 'employee' || userRole === 'owner') { %>
+                        <li><a href="/employee">Employee Dashboard</a></li>
+                    <% } %>
+
+                    <% if (userRole === 'owner') { %>
+                    <li><a href="/owner">Owner Dashboard</a></li>
+                    <% } %>
+                    
                     <li> <a href="/logout">Logout</a> </li>
                  <% } else { %>
                     <li><a href="/login">Login</a></li>

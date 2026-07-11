@@ -1,0 +1,22 @@
+<%- include('../partials/header.ejs') %>
+<main>
+    <h1>Manage Vehicles</h1>
+
+    <% if (userRole === 'owner') { %>
+        <a href="/owner/vehicles/new">Add New Vehicle</a>
+    <% } %>
+
+    <% vehicles.forEach(vehicle => { %>
+        <div class="vehicle-row">
+            <p><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %> — $<%= vehicle.price.toLocaleString() %> — <%= vehicle.available ? 'Available' : 'Unavailable' %></p>
+            <a href="/employee/vehicles/<%= vehicle.slug %>/edit">Edit</a>
+
+            <% if (userRole === 'owner') { %>
+                <form method="POST" action="/owner/vehicles/<%= vehicle.slug %>/delete" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            <% } %>
+        </div>
+    <% }) %>
+</main>
+<%- include('../partials/footer.ejs') %>

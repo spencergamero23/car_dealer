@@ -10,4 +10,10 @@ const createContactSubmission = async ({ name, email, phone, message}) => {
     return result.rows[0];
 };
 
-export { createContactSubmission };
+const getAllContactSubmissions = async () => {
+    const result = await db.query(
+        `SELECT id, name, email, phone, message, created_at FROM contact_submissions ORDER BY created_at DESC`
+    );
+    return result.rows;
+};
+export { createContactSubmission, getAllContactSubmissions };

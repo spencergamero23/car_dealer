@@ -1,63 +1,69 @@
-// Temporary in-memory data. Swap this for real PostgreSQL queries later —
-// keep these two function signatures the same so the controller doesn't change.
-const vehicles = [
-    {
-        slug: 'toyota-camry-2022',
-        category: 'Cars',
-        make: 'Toyota',
-        model: 'Camry',
-        year: 2022,
-        price: 24000,
-        mileage: 15000,
-        image: '/images/inventory/toyota-camry-2022.jpg',
-        description: 'A reliable, fuel-efficient sedan with a comfortable ride.',
-        specs: { engine: '2.5L 4-Cylinder', transmission: 'Automatic', drivetrain: 'FWD' }
-    },
-    {
-        slug: 'ford-f150-2021',
-        category: 'Trucks',
-        make: 'Ford',
-        model: 'F-150',
-        year: 2021,
-        price: 35000,
-        mileage: 22000,
-        image: '/images/inventory/ford-f150-2021.jpg',
-        description: 'A powerful full-size truck built for work and towing.',
-        specs: { engine: '3.5L V6 EcoBoost', transmission: 'Automatic', drivetrain: '4WD' }
-    },
-    {
-        slug: 'honda-odyssey-2020',
-        category: 'Vans',
-        make: 'Honda',
-        model: 'Odyssey',
-        year: 2020,
-        price: 28000,
-        mileage: 31000,
-        image: '/images/inventory/honda-odyssey-2020.jpg',
-        description: 'Spacious minivan with seating for the whole family.',
-        specs: { engine: '3.5L V6', transmission: 'Automatic', drivetrain: 'FWD' }
-    },
-    {
-        slug: 'jeep-grand-cherokee-2023',
-        category: 'SUVs',
-        make: 'Jeep',
-        model: 'Grand Cherokee',
-        year: 2023,
-        price: 39000,
-        mileage: 8000,
-        image: '/images/inventory/jeep-grand-cherokee-2023.jpg',
-        description: 'Rugged and capable SUV with room for the whole crew.',
-        specs: { engine: '3.6L V6', transmission: 'Automatic', drivetrain: '4WD' }
-    }
-];
+import db from '../db.js';
 
-const getAllVehicles = async(category) => {
-    if (!category) return vehicles;
-    return vehicles.filter(v => v.category.toLowerCase() === category.toLowerCase());
+const mapVehicle = (row) => ({
+    slug: row.slug,
+    category: row.category_name,
+    make: row.make,
+    model: row.model,
+    year: row.year,
+    price: Number(row.price),
+    mileage: row.mileage,
+    image: row.image,
+    description: row.description,
+    available: row.available,
+    specs: {
+        engine: row.engine,
+        transmission: row.transmission,
+        drivetrain: row.drivetrain
+    }
+});
+
+const getAllVehicles = async (category) => {
+    const query = category
+        ? `SELECT vehicles.*, categories.name AS category_name
+           FROM vehicles JOIN categories ON vehicles.category_id = categories.id
+           WHERE LOWER(categories.name) = LOWER($1)
+           ORDER BY vehicles.year DESC`
+        : `SELECT vehicles.*, categories.name AS category_name
+           FROM vehicles JOIN categories ON vehicles.category_id = categories.id
+           ORDER BY vehicles.year DESC`;
+
+    const result = category ? await db.query(query, [category]) : await db.query(query);
+    return result.rows.map(mapVehicle);
 };
 
 const getVehicleBySlug = async (slug) => {
-    return vehicles.find(v => v.slug === slug) || null;
+    const result = await db.query(
+        `SELECT vehicles.*, categories.name AS category_name
+         FROM vehicles JOIN categories ON vehicles.category_id = categories.id
+         WHERE vehicles.slug = $1`,
+        [slug]
+    );
+    return result.rows[0] ? mapVehicle(result.rows[0]) : null;
 };
 
-export { getAllVehicles, getVehicleBySlug};
+const updateVehicle = async (slug, { price, description, available }) => {
+    const result = await db.query(
+        `UPDATE vehicles SET price = $1, description = $2, available = $3 WHERE slug = $4 RETURNING slug`,
+        [price, description, available, slug]
+    );
+    return result.rows[0] || null;
+};
+
+const createVehicle = async ({ slug, categoryName, make, model, year, price, mileage, image, description, engine, transmission, drivetrain }) => {
+    const result = await db.query(
+        `INSERT INTO vehicles (slug, category_id, make, model, year, price, mileage, image, description, engine, transmission, drivetrain)
+         SELECT $1, categories.id, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
+         FROM categories WHERE categories.name = $12
+         RETURNING slug`,
+        [slug, make, model, year, price, mileage, image, description, engine, transmission, drivetrain, categoryName]
+    );
+    return result.rows[0] || null;
+};
+
+const deleteVehicle = async (slug) => {
+    const result = await db.query(`DELETE FROM vehicles WHERE slug = $1`, [slug]);
+    return result.rowCount > 0;
+};
+
+export { getAllVehicles, getVehicleBySlug, updateVehicle, createVehicle, deleteVehicle };
