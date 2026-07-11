@@ -2,10 +2,12 @@
 <main>
     <h1>Manage Categories</h1>
 
-    <form method="POST" action="/owner/categories">
-        <input type="text" name="name" placeholder="New category name" required>
-        <button type="submit">Add Category</button>
-    </form>
+    <div class="card">
+        <form method="POST" action="/owner/categories">
+            <input type="text" name="name" placeholder="New category name" required>
+            <button type="submit">Add Category</button>
+        </form>
+    </div>
 
     <% categories.forEach(category => { %>
         <div class="category-row">

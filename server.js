@@ -30,7 +30,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000
     }
@@ -40,6 +40,33 @@ app.use(addLocalVariables);
 app.use(flash);
 
 app.use('/', routes);
+
+// 404 handler — runs when no route matched
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// Global error handler — centralizes all error responses
+app.use((err, req, res, next) => {
+    if (res.headersSent) {
+        return next(err);
+    }
+
+    console.error(err);
+
+    const status = err.status || 500;
+    const message = status === 404
+        ? 'The page you are looking for does not exist.'
+        : 'Something went wrong on our end. Please try again later.';
+
+    try {
+        res.status(status).render('errors/error', { title: `Error ${status}`, status, message });
+    } catch (renderErr) {
+        res.status(status).send(`<h1>${status}</h1><p>${message}</p>`);
+    }
+});
 
 const PORT = 3000;
 

@@ -1,33 +1,43 @@
 <%- include('../partials/header.ejs') %>
 <main>
-    <h1><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h1>
+    <div class="card">
+        <h1><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h1>
 
-    <img src="<%= vehicle.image %>" alt="<%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>">
+        <img src="<%= vehicle.image %>" alt="<%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>">
+        <% if (vehicle.images.length > 0) { %>
+            <div class="gallery">
+                <% vehicle.images.forEach(image => { %>
+                    <img src="<%= image.image_url %>" alt="<%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>" width="150">
+                <% }) %>
+            </div>
+        <% } %>
+        <p>$<%= vehicle.price.toLocaleString() %></p>
+        <p><%= vehicle.mileage.toLocaleString() %> miles</p>
+        <p><%= vehicle.description %></p>
 
-    <p>$<%= vehicle.price.toLocaleString() %></p>
-    <p><%= vehicle.mileage.toLocaleString() %> miles</p>
-    <p><%= vehicle.description %></p>
-
-    <ul>
-        <li>Engine: <%= vehicle.specs.engine %></li>
-        <li>Transmission: <%= vehicle.specs.transmission %></li>
-        <li>Drivetrain: <%= vehicle.specs.drivetrain %></li>
-    </ul>
+        <ul>
+            <li>Engine: <%= vehicle.specs.engine %></li>
+            <li>Transmission: <%= vehicle.specs.transmission %></li>
+            <li>Drivetrain: <%= vehicle.specs.drivetrain %></li>
+        </ul>
+    </div>
 
     <h2>Reviews</h2>
 
     <% if (isLoggedIn) { %>
-        <form method="POST" action="/inventory/<%= vehicle.slug %>/reviews">
-            <select name="rating" required>
-                <option value="5">5 - Excellent</option>
-                <option value="4">4 - Good</option>
-                <option value="3">3 - Average</option>
-                <option value="2">2 - Poor</option>
-                <option value="1">1 - Terrible</option>
-            </select>
-            <textarea name="comment" placeholder="Write a review..."></textarea>
-            <button type="submit">Submit Review</button>
-        </form>
+        <div class="card">
+            <form method="POST" action="/inventory/<%= vehicle.slug %>/reviews">
+                <select name="rating" required>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2 - Poor</option>
+                    <option value="1">1 - Terrible</option>
+                </select>
+                <textarea name="comment" placeholder="Write a review..."></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
     <% } else { %>
         <p><a href="/login">Log in</a> to leave a review.</p>
     <% } %>

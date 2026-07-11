@@ -1,6 +1,7 @@
 import db from '../db.js';
 
 const mapVehicle = (row) => ({
+    id: row.id,
     slug: row.slug,
     category: row.category_name,
     make: row.make,
@@ -39,7 +40,12 @@ const getVehicleBySlug = async (slug) => {
          WHERE vehicles.slug = $1`,
         [slug]
     );
-    return result.rows[0] ? mapVehicle(result.rows[0]) : null;
+
+    if (!result.rows[0]) return null;
+
+    const vehicle = mapVehicle(result.rows[0]);
+    vehicle.images = await getVehicleImages(vehicle.id);
+    return vehicle;
 };
 
 const updateVehicle = async (slug, { price, description, available }) => {
@@ -66,4 +72,28 @@ const deleteVehicle = async (slug) => {
     return result.rowCount > 0;
 };
 
-export { getAllVehicles, getVehicleBySlug, updateVehicle, createVehicle, deleteVehicle };
+const getVehicleImages = async (vehicleId) => {
+    const result = await db.query(
+        `SELECT id, image_url FROM vehicle_images WHERE vehicle_id = $1 ORDER BY created_at`,
+        [vehicleId]
+    );
+    return result.rows;
+};
+
+const addVehicleImage = async (vehicleId, imageUrl) => {
+    const result = await db.query(
+        `INSERT INTO vehicle_images (vehicle_id, image_url) VALUES ($1, $2) RETURNING id`,
+        [vehicleId, imageUrl]
+    );
+    return result.rows[0];
+};
+
+const deleteVehicleImage = async (id) => {
+    const result = await db.query(`DELETE FROM vehicle_images WHERE id = $1`, [id]);
+    return result.rowCount > 0;
+};
+
+export {
+    getAllVehicles, getVehicleBySlug, updateVehicle, createVehicle, deleteVehicle,
+    getVehicleImages, addVehicleImage, deleteVehicleImage
+};

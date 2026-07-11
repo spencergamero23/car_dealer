@@ -10,14 +10,16 @@
         <a href="/?category=Cars" class="<%= category === 'Cars' ? 'active' : '' %>">Cars</a>
         <a href="/?category=SUVs" class="<%= category === 'SUVs' ? 'active' : '' %>">SUVs</a>
     </nav>
-    <% vehicles.forEach(vehicle => { %>
-      <a href="/inventory/<%= vehicle.slug %>">
-        <div class="vehicle-card">
-          <img>
-          <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
-          <p>$<%= vehicle.price.toLocaleString() %></p>
-        </div>
-      </a>
-    <% }) %>
+    <div class="vehicle-grid">
+        <% vehicles.forEach(vehicle => { %>
+          <a href="/inventory/<%= vehicle.slug %>">
+            <div class="vehicle-card">
+              <img src="<%= vehicle.image %>" alt="<%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>">
+              <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
+              <p>$<%= vehicle.price.toLocaleString() %></p>
+            </div>
+          </a>
+        <% }) %>
+    </div>
  </main>
  <%- include('../partials/footer.ejs') %>

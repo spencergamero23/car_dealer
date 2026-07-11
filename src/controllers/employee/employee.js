@@ -1,4 +1,4 @@
-import { getAllVehicles, getVehicleBySlug, updateVehicle } from '../../models/inventory/vehicles.js';
+import { getAllVehicles, getVehicleBySlug, updateVehicle, addVehicleImage, deleteVehicleImage } from '../../models/inventory/vehicles.js';
 import { getAllReviews, deleteReview } from '../../models/reviews/reviews.js';
 import { getAllServiceRequests, updateServiceRequestStatus } from '../../models/service/service.js';
 import { getAllContactSubmissions } from '../../models/contact/contact.js';
@@ -60,10 +60,27 @@ const showContactSubmissions = async (req, res) => {
     res.render('employee/contact-submissions', { title: 'Contact Submissions', submissions });
 };
 
+const processAddVehicleImage = async (req, res) => {
+    const vehicle = await getVehicleBySlug(req.params.slug);
+
+    if (!vehicle) {
+        return res.redirect('/employee/vehicles');
+    }
+
+    await addVehicleImage(vehicle.id, req.body.imageUrl);
+
+    res.redirect(`/employee/vehicles/${req.params.slug}/edit`);
+};
+
+const processDeleteVehicleImage = async (req, res) => {
+    await deleteVehicleImage(req.params.imageId);
+    res.redirect(`/employee/vehicles/${req.params.slug}/edit`);
+};
+
 export {
     showEmployeeDashboard,
     showVehicleList, showEditVehicleForm, processEditVehicle,
     showReviewModeration, moderateDeleteReview,
     showServiceRequests, processUpdateServiceRequest,
-    showContactSubmissions
+    showContactSubmissions, processAddVehicleImage, processDeleteVehicleImage
 };

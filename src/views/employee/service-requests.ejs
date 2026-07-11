@@ -1,12 +1,16 @@
 <%- include('../partials/header.ejs') %>
 <main>
     <h1>Service Requests</h1>
+
     <% requests.forEach(request => { %>
         <div class="service-request-row">
-            <p><strong><%= request.customerName %></strong> — <%= request.vehicle_info %> — <%= request.service_type %></p>
-            <% if (request.notes) { %><p>Customer notes: <%= request.notes %></p><% } %>
+            <div class="service-request-info">
+                <p><strong><%= request.customerName %></strong> — <%= request.vehicle_info %> — <%= request.service_type %></p>
+                <% if (request.notes) { %><p class="customer-notes">Customer notes: <%= request.notes %></p><% } %>
+                <span class="status-badge status-<%= request.status.toLowerCase().replace(' ', '-') %>"><%= request.status %></span>
+            </div>
 
-            <form method="POST" action="/employee/service-requests/<%= request.id %>">
+            <form method="POST" action="/employee/service-requests/<%= request.id %>" class="service-request-form">
                 <select name="status">
                     <option value="Submitted" <%= request.status === 'Submitted' ? 'selected' : '' %>>Submitted</option>
                     <option value="In Progress" <%= request.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>

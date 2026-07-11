@@ -1,11 +1,11 @@
 <%- include('../partials/header.ejs') %>
 <main>
     <h1>Employee Dashboard</h1>
-    <ul>
-        <li><a href="/employee/vehicles">Manage Vehicles</a></li>
-        <li><a href="/employee/reviews">Moderate Reviews</a></li>
-        <li><a href="/employee/service-requests">Service Requests</a></li>
-        <li><a href="/employee/contact-submissions">Contact Submissions</a></li>
-    </ul>
+    <div class="dashboard-grid">
+        <a class="card dashboard-tile" href="/employee/vehicles">Manage Vehicles</a>
+        <a class="card dashboard-tile" href="/employee/reviews">Moderate Reviews</a>
+        <a class="card dashboard-tile" href="/employee/service-requests">Service Requests</a>
+        <a class="card dashboard-tile" href="/employee/contact-submissions">Contact Submissions</a>
+    </div>
 </main>
 <%- include('../partials/footer.ejs') %>
