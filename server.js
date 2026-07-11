@@ -19,10 +19,14 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
 const pgSession = connectPgSimple(session);
+const isLocalDb = /localhost|127\.0\.0\.1/.test(process.env.DB_URL || '');
 
 app.use(session({
     store: new pgSession({
-        conObject: { connectionString: process.env.DB_URL },
+        conObject: {
+            connectionString: process.env.DB_URL,
+            ssl: isLocalDb ? false : { rejectUnauthorized: false }
+        },
         tableName: 'session',
         createTableIfMissing: true
     }),
