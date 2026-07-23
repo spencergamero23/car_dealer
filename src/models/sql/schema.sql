@@ -153,3 +153,7 @@ UPDATE vehicles SET image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd
 UPDATE vehicles SET image = 'https://www.iihs.org/cdn-cgi/image/width=636/api/ratings/model-year-images/2973/' WHERE slug = 'ford-explorer-2020';
 UPDATE vehicles SET image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs0LFTG-lthss-QnQKuXbD6H2LGJQgg37zMbZfguVEdQ&s=10' WHERE slug = 'chevrolet-silverado-2020';
 UPDATE vehicles SET image = 'https://www.iihs.org/cdn-cgi/image/width=636/api/ratings/model-year-images/2732/' WHERE slug = 'honda-odyssey-2020';
+
+UPDATE users
+SET password = '$2b$10$f2VWmgYC9M0AXN754sr5CuAEbe9JZyunkh5ADPPgM5.FIMZk.k7Wi'
+WHERE email IN ('customer@gmail.com', 'employee@gmail.com', 'admin@gmail.com');

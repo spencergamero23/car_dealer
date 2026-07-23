@@ -27,7 +27,7 @@ tracking), and `contact_submissions`.
   categories, and managing user roles.
 
 ## Test Account Credentials
-All test accounts use the password `password123!`.
+All test accounts use the password of course.
 
 | Role     | Email               |
 |----------|---------------------|
